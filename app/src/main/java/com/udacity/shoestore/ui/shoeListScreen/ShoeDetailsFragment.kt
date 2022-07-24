@@ -36,15 +36,46 @@ class ShoeDetailsFragment:Fragment() {
         }
 
         shoeDetailsFragmentBinding.saveBtn.setOnClickListener { view->
-            val newShoe=Shoe(
-                shoeDetailsFragmentBinding.shoeNameText.text.toString(),
-                shoeDetailsFragmentBinding.sizeText.text.toString().toDouble(),
-                shoeDetailsFragmentBinding.companyText.text.toString(),
-                shoeDetailsFragmentBinding.descriptionText.text.toString()
-            )
-            shoeListViewModel.addShoe(newShoe)
-            Toast.makeText(requireContext(), "shoe added completely", Toast.LENGTH_SHORT).show()
-            view.findNavController().popBackStack()
+
+            if (validate()){
+                addShoe()
+                view.findNavController().popBackStack()
+            }else{
+                Toast.makeText(requireContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
+            }
+
         }
+    }
+
+    private fun addShoe() {
+        val newShoe=Shoe(
+            shoeDetailsFragmentBinding.shoeNameText.text.toString(),
+            shoeDetailsFragmentBinding.sizeText.text.toString().toDouble(),
+            shoeDetailsFragmentBinding.companyText.text.toString(),
+            shoeDetailsFragmentBinding.descriptionText.text.toString()
+        )
+        shoeListViewModel.addShoe(newShoe)
+        Toast.makeText(requireContext(), "shoe added completely", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun validate(): Boolean {
+        var flag=true
+        if(shoeDetailsFragmentBinding.shoeNameText.text.isNullOrEmpty()){
+            shoeDetailsFragmentBinding.shoeNameText.error="enter shoe name"
+            flag=false
+        }
+        if(shoeDetailsFragmentBinding.sizeText.text.isNullOrEmpty()){
+            shoeDetailsFragmentBinding.sizeText.error="enter shoe size"
+            flag=false
+        }
+        if(shoeDetailsFragmentBinding.companyText.text.isNullOrEmpty()){
+            shoeDetailsFragmentBinding.companyText.error="enter shoe company"
+            flag=false
+        }
+        if(shoeDetailsFragmentBinding.descriptionText.text.isNullOrEmpty()){
+            shoeDetailsFragmentBinding.descriptionText.error="enter shoe description"
+            flag=false
+        }
+        return flag
     }
 }

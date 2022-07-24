@@ -37,6 +37,7 @@ class ShoeListFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeToLiveData()
+        setHasOptionsMenu(true)
         shoeListFragmentDataBinding.addBtn.setOnClickListener{view->
             view.findNavController().navigate(ShoeListFragmentDirections.actionShoeListFragmentToShoeDetailsFragment())
         }
